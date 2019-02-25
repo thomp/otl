@@ -25,7 +25,6 @@
 
 (defun footnote-transform-html ()
   (declare (special %obj-seq% %obj-seq-pointer%))
-  #+DAT-DEV (dd:dpr 3 "FOOTNOTE-TRANSFORM-HTML.00")
   ;; some markup languages aren't too bright/aesthetic when it comes to whitespace and footnote markers
   ;; modify previous item if it is space and is succeeded by a footnote item
   (let ((previtem (otlb::prev-obj %obj-seq% %obj-seq-pointer%)))
