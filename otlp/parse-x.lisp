@@ -223,7 +223,6 @@
 	  (pc:find? "]]")
 	  (pc:result
 	   (progn
-	     #+DAT-DEV (dat-dev:with-long-lists (dat-dev:dpr 3 "OTL-EXPR?.20: foo" foo))
 	     (list (list type-keyword nil)
 		   foo)))))
 

@@ -165,7 +165,7 @@
   (when item
     (let ((item-specifier (otlb::get-item-spec item))
 	  (object-sequence (otlb::get-item-obj-seq item)))
-      (log:debug item-specifier object-sequence)
+      ;(log:debug item-specifier object-sequence)
       (let ((item-spec-length (length item-specifier)))
 	(let ((item-key (first item-specifier))
 	      (item-id (when (> item-spec-length 1) (second item-specifier)))
@@ -175,7 +175,7 @@
 		 (funcall (second %custom%) object-sequence stream))
 		(t
 		 (let ((key-fn (assoc item-key *render* :test 'eq)))
-		   (log:debug key-fn)
+		   ;(log:debug key-fn)
 		   (unless (consp key-fn)
 		     (error (format nil "Unsupported item type (RENDER-ITEM):~%    item-key: ~S~%    item: ~S~%    key-fn: ~S~%" item-key item key-fn)))
 		   ;; R-FN?:  if specified, a symbol pointing to a fn
