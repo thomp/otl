@@ -2,6 +2,13 @@
 ;;;
 ;;; render
 ;;;
+(define-condition unsupported-item-type (error)
+  ((item-key :initarg :item-key :initform nil :reader item-keyread)
+   (item :initarg :item :initform nil :reader itemread)
+   (key-fn :initarg :key-fn :initform nil :reader key-fnread))
+  (:documentation "This should be signalled if a request is made to render an item but support for that item type is not present.")
+  )
+
 (defparameter *pre-render-hooks* nil "List of funcallable objects, each of which has the capacity to not accept any arguments. Each member of the list should be called before the start of rendering.")
 
 (defun document-to-stream (document output-spec stream &key glossfile glossp ignore-errors-p out-dir output-subtype style)
