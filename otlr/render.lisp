@@ -184,7 +184,10 @@
 		 (let ((key-fn (assoc item-key *render* :test 'eq)))
 		   ;(log:debug key-fn)
 		   (unless (consp key-fn)
-		     (error (format nil "Unsupported item type (RENDER-ITEM):~%    item-key: ~S~%    item: ~S~%    key-fn: ~S~%" item-key item key-fn)))
+		     (error 'unsupported-item-type
+			    :key-fn key-fn
+			    :item item
+			    :item-key item-key))
 		   ;; R-FN?:  if specified, a symbol pointing to a fn
 		   ;; - fn should be able to access and alter encompassing object sequence
 		   (let ((r-fn? (if key-fn (cdr key-fn))))
@@ -233,7 +236,12 @@
 		 (let ((%containing-obj-seq% %obj-seq%)
 		       (%containing-obj-seq-pointer% %obj-seq-pointer%))
 		   (declare (special %containing-obj-seq% %containing-obj-seq-pointer%))
-		   (render-item x :stream stream)))
+		   (handler-case
+		       (render-item x :stream stream)
+		     (unsupported-item-type (c)
+		       (format stream "[UNSUPPORTED ITEM TYPE ~S]"
+			       (item-keyread c))))
+		   ))
 		;; NIL is a valid item -> ignore
 		((not x))
 		(t
