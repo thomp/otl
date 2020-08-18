@@ -6,14 +6,16 @@
   ((item-key :initarg :item-key :initform nil :reader item-keyread)
    (item :initarg :item :initform nil :reader itemread)
    (key-fn :initarg :key-fn :initform nil :reader key-fnread))
-  (:documentation "This should be signalled if a request is made to render an item but support for that item type is not present.")
+  (:documentation
+   "This should be signalled if a request is made to render an item but support for that item type is not present."
+   )
   )
 
 (defparameter *pre-render-hooks* nil "List of funcallable objects, each of which has the capacity to not accept any arguments. Each member of the list should be called before the start of rendering.")
 
 (defun document-to-stream (document output-spec stream &key glossfile glossp ignore-errors-p out-dir output-subtype style)
   "Return a string. IGNORE-ERRORS-P is either T or NIL. DOCUMENT should represent a complete otl document. OUTPUT-SPEC is one of :HTML, :LATEX, :TEXT, or a path or pathspec pointing to a parameter file."
-  (declare (optimize (debug 3) (safety 3)) 
+  (declare (optimize (debug 3) (safety 3))
 	   (boolean ignore-errors-p))
   ;; %OUTPUT-SUBTYPE% is only used with render functions
   (let ((%output-subtype%
@@ -25,23 +27,26 @@
     (declare (special %output-subtype%))
     (if ignore-errors-p
 	(handler-case
-	    (render-document document :glossfile glossfile :glossp glossp :out-dir out-dir :output-spec output-spec :stream stream :style style) 
-	  (error (e) 
-	    (render-document 
+	    (render-document document :glossfile glossfile :glossp glossp
+				      :out-dir out-dir :output-spec output-spec
+				      :stream stream :style style)
+	  (error (e)
+	    (render-document
 	     (list
 	      (list :document)
 	      (otlb::string-to-charlist
 	       ;; TRIVIAL-BACKTRACE or equivalent might be used here to supply more detail
-	       (format nil "ERROR while rendering:~%~S" e))) 
+	       (format nil "ERROR while rendering:~%~S" e)))
 	     :output-spec output-spec
 	     :stream stream)))
-	
-	(render-document document :glossfile glossfile :glossp glossp :out-dir out-dir :output-spec output-spec :stream stream :style style))))
+	(render-document document :glossfile glossfile :glossp glossp
+				  :out-dir out-dir :output-spec output-spec
+				  :stream stream :style style))))
 
 ;; FIXME: use DOCUMENT-TO-STREAM -- it does everything this does except define the stream
 (defun document-to-string (document output-spec &key glossfile glossp ignore-errors-p out-dir output-subtype style)
   "Return a string. IGNORE-ERRORS-P is either T or NIL. DOCUMENT should represent a complete otl document. OUTPUT-SPEC is one of :HTML, :LATEX, :TEXT, or a path or pathspec pointing to a parameter file."
-  (declare (optimize (debug 3) (safety 3)) 
+  (declare (optimize (debug 3) (safety 3))
 	   (boolean ignore-errors-p))
   ;; %OUTPUT-SUBTYPE% is only used with render functions
   (let ((%output-subtype%
@@ -54,15 +59,17 @@
     (if ignore-errors-p
 	(handler-case
 	    (with-output-to-string (s)
-	      (render-document document :glossfile glossfile :glossp glossp :out-dir out-dir :output-spec output-spec :stream s :style style)) 
-	  (error (e) 
+	      (render-document document :glossfile glossfile :glossp glossp
+					:out-dir out-dir :output-spec output-spec
+					:stream s :style style))
+	  (error (e)
 	    (with-output-to-string (s)
-	      (render-document 
+	      (render-document
 	       (list
 		(list :document)
 		(otlb::string-to-charlist
 		 ;; TRIVIAL-BACKTRACE or equivalent might be used here to supply more detail
-		 (format nil "ERROR while rendering:~%~S" e))) 
+		 (format nil "ERROR while rendering:~%~S" e)))
 	       :output-spec output-spec
 	       :stream s))))
 	(with-output-to-string (s)
@@ -99,7 +106,7 @@
   ;; see RENDER-DOCUMENT
   ;; it may be desirable to perform certain actions post-rendering, 
   ;; for example, for glossary generation for a LaTeX document, it may be desirable to generate a file containing \newglossentry entries
-  (let ((post-render? (get-*render*-value :POST))) 
+  (let ((post-render? (get-*render*-value :POST)))
     (if post-render?
 	(funcall post-render?))))
 
@@ -232,7 +239,7 @@
 		 (if char-renderer?
 		     (funcall char-renderer? x stream)
 		     (write-char x stream)))
-		((consp x) 
+		((consp x)
 		 (let ((%containing-obj-seq% %obj-seq%)
 		       (%containing-obj-seq-pointer% %obj-seq-pointer%))
 		   (declare (special %containing-obj-seq% %containing-obj-seq-pointer%))
@@ -245,7 +252,7 @@
 		;; NIL is a valid item -> ignore
 		((not x))
 		(t
-		 (error (format nil "Unsupported item type (RENDER-OBJECT-SEQ): ~S~%" x)))) 
+		 (error (format nil "Unsupported item type (RENDER-OBJECT-SEQ): ~S~%" x))))
 	  (incf %obj-seq-pointer%))))))
 
 (defun render-reset (&key glossfile output-spec)
@@ -309,9 +316,9 @@
   (let ((item-key (otlb:get-item-key x)))
     ;; modify id of container item when linktarget is encountered
     ;; if linktarget is at first position in document or subcomponent of document, the item to which linktarget points isn't clear (nonsensical) 
-    (if (and %containing-obj-seq% 
+    (if (and %containing-obj-seq%
 	     (eq item-key :linktarget)
-	     (otlb:itemp %containing-obj-seq%)) 
+	     (otlb:itemp %containing-obj-seq%))
 	(otlb:set-item-id %containing-obj-seq% (otlb:get-item-id x)))
     ;; a pre-rendering hook fn specifiable in *TRANSFORM* for each item type 
     ;; - fn handed object sequence and pointer and (potentially) modifies object sequence
