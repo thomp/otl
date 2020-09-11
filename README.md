@@ -17,15 +17,17 @@ Generate HTML, OpenDocument, LaTeX, or other markup from a plain-text input docu
 - tables
 - a table of contents
 
+Source documents are not restricted to ASCII -- input text can include Unicode characters such as ℃ or ←.
+
+
 
 ## Getting started
 
 otl depends on
 - https://github.com/Ramarren/cl-parser-combinators[cl-parser-combinators]
 - https://github.com/e-user/graylex[graylex]
-[dfile]
-[paper-sizes]
-
+- https://gitlab.com/dtho/dfile[dfile]
+- https://bitbucket.org/thomp1/paper-sizes[paper-sizes]
 
 otl-html depends on
 - cl-base64
