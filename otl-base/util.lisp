@@ -74,7 +74,7 @@
 ;; function utils (dcu/shared-function.lisp)
 ;;
 (defun funcallablep (x)
-  (typep x 'SB-KERNEL::callable))
+  (member (type-of x) '(function symbol)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
