@@ -82,19 +82,19 @@
 ;; FIXME: are two different versions needed?
 ;; 1. called from SECTHEAD-OPENDOCUMENT
 ;;    -> %containing-obj-seq% and %containing-obj-seq-pointer% as externally established special variable
-;; 
+;;
 (defun obj-seq-to-string (obj-seq &optional custom)
   (with-output-to-string (s)
     (obj-seq-to-stream obj-seq s custom)))
 
 (defun obj-seq-to-stream (obj-seq stream &optional custom)
   "OBJ-SEQ is an object sequence."
-  ;; CUSTOM has the form (item-key fn) -- CUSTOM is used to specify a function which is called when an object with a specific ITEM-KEY is encountered 
+  ;; CUSTOM has the form (item-key fn) -- CUSTOM is used to specify a function which is called when an object with a specific ITEM-KEY is encountered
   ;; -> can be used to ignore or transform an item in a specific context
   ;; - function FN should accept two arguments, an object sequence, and a stream
   
   ;; see comment for OBJ-SEQ-TO-STRING
-  ;;(declare (special %containing-obj-seq% %containing-obj-seq-pointer%)) 
+  ;;(declare (special %containing-obj-seq% %containing-obj-seq-pointer%))
   (let ((%custom% custom)
 	;(%containing-obj-seq% nil)
 	;(%containing-obj-seq-pointer% nil)
@@ -104,7 +104,7 @@
 
 (defun post-render ()
   ;; see RENDER-DOCUMENT
-  ;; it may be desirable to perform certain actions post-rendering, 
+  ;; it may be desirable to perform certain actions post-rendering,
   ;; for example, for glossary generation for a LaTeX document, it may be desirable to generate a file containing \newglossentry entries
   (let ((post-render? (get-*render*-value :POST)))
     (if post-render?
@@ -302,7 +302,7 @@
   (setf %obj-seq-pointer% 0)
   (dolist (x %obj-seq%)
     ;; - X is a member of the object sequence %OBJ-SEQ%
-    ;; - %CONTAINING-OBJ-SEQ% is the object sequence which holds, potentially, many items, including the item with object sequence %OBJ-SEQ% 
+    ;; - %CONTAINING-OBJ-SEQ% is the object sequence which holds, potentially, many items, including the item with object sequence %OBJ-SEQ%
 
     ;; ignore characters
     (unless (characterp x)
@@ -315,12 +315,12 @@
   (declare (special %containing-obj-seq%))
   (let ((item-key (otlb:get-item-key x)))
     ;; modify id of container item when linktarget is encountered
-    ;; if linktarget is at first position in document or subcomponent of document, the item to which linktarget points isn't clear (nonsensical) 
+    ;; if linktarget is at first position in document or subcomponent of document, the item to which linktarget points isn't clear (nonsensical)
     (if (and %containing-obj-seq%
 	     (eq item-key :linktarget)
 	     (otlb:itemp %containing-obj-seq%))
 	(otlb:set-item-id %containing-obj-seq% (otlb:get-item-id x)))
-    ;; a pre-rendering hook fn specifiable in *TRANSFORM* for each item type 
+    ;; a pre-rendering hook fn specifiable in *TRANSFORM* for each item type
     ;; - fn handed object sequence and pointer and (potentially) modifies object sequence
     ;; - note that fn can be used for other purposes (e.g., for developing toc content)
     (let ((transform-fn? (otlb::get-transform-fn item-key)))
