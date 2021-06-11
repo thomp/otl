@@ -50,9 +50,39 @@ Generating an HTML file corresponding to a text file:
     (otl:parse-and-render-file "/path/to/mydoc.txt" :html :overwrite-p t)
 
 
+## Default markup
+
+Examples of some of the default markup for otl are shown below.
+
+	**this is in bold**
+
+	//
+	// this text will be ignored by otl
+	//
+
+	;;italicized content;;
+
+	``this should be in monospace``
+
+
+	The formula for water could be represented as H,,2,,O.
+
+	We could represent "x cubed" as x^^3^^.
+
+
+	|| Title of table
+	|| Additional caption text
+	a   | b   | c
+	A   | B   | C
+	--- | --- | ---
+	foo | goo | loo
+	asd | per | for
+
+
+
 ## Building an executable
 
-Ensure you include support for output in the desired language(s). Run (from the shell, not the REPL):
+Ensure support is included for output in the desired language(s). For example, for support for LaTeX and HTML, run (from the shell, not the REPL):
 
     sbcl --eval "(progn (ql:quickload :otl) (ql:quickload :otl-html) (ql:quickload :otl-latex))"
 	
