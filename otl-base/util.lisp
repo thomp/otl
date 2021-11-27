@@ -78,7 +78,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
-;; list utils (dcu/shared-list.lisp)
+;; list utils (dcu/list.lisp)
 ;;
 (defun aupdate (key value some-alist &key (test #'eq))
   "Add new key/value pair if key not already present in alist SOME-ALIST. If key already present, update corresponding value. Don't modify the original list. Return a copy of the updated alist."
@@ -109,6 +109,9 @@
       (let ((key (pop keys)))
 	(avals-deep keys (avals key some-alist test) test))
       some-alist))
+
+(defun remove-empties (l)
+  (remove-if 'noes l))
 
 (defun remove-nils (some-list)
   "Remove nil values from list SOME-LIST. Return the corresponding list."
