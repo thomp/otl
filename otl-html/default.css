@@ -1,0 +1,111 @@
+/**                                **/
+/** default CSS style for OTL-HTML **/
+/**                                **/
+
+body {
+    font-family: 'DejaVu Sans', sans-serif;
+    background-color: #ffffff;
+    color: #000000;
+    margin-left: 8%;
+    margin-right: 8%;
+    margin-top: 5%;
+}
+
+a { 
+    text-decoration: none;
+    color: #111153; }
+
+a:hover { 
+    border-width: thin;
+    border-color: #332233;
+    border-style: dashed; }
+
+caption {font-weight: bold;}
+
+ol {margin: 0em; }
+
+p {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    padding-top: 0.05em;
+    padding-bottom: 0.05em; }
+
+table { 
+    border-collapse: separate;
+    border-spacing: 2em 0.5em;
+}
+
+ul {margin: 0em; }
+
+/** @page stuff below does pagination **/
+@page :left {
+	@bottom-left {
+	content: counter(page);
+	}
+}
+@page :right {
+	@bottom-right {
+	content: counter(page);
+	}
+}
+@page :first {
+	@bottom-right {
+	content: normal;
+	}
+}
+/** print style                                **/
+/** - note that printing is broken with webkit **/
+/**   (webkit bug 5097)                        **/
+@media print {
+    body {
+	font-family: 'DejaVu Sans', sans-serif;
+	font-size: 15pt;
+	margin: 1in;
+    }
+    li {
+	margin-top: 0.3em;
+	margin-bottom: 0.3em; }
+    h1 {
+	font-size: 21pt;
+	margin-bottom: 0.2em;
+	padding-bottom: 0em;
+	border-width: 0px; }
+    h2 {
+	font-size: 19pt;
+	margin-top: 0.6em;
+	margin-bottom: 0.2em; }
+    h3
+    {
+	font-size: 17pt;	
+	margin-top: 0.4em;
+	margin-bottom: 0.2em;
+    }
+    h4
+    {
+	font-size: 16pt;
+	margin-top: 0.15em;
+	margin-bottom: 0.05em;
+    }
+    table
+    { 
+	border-collapse: separate;
+	border-spacing: 2em 0.5em;
+    }
+}
+
+@media screen {
+    li {
+	margin-top: 0.1em;
+	margin-bottom: 0.1em; }
+    h1 {
+	margin-bottom: 0em;
+	padding-bottom: 0em;
+	border-width: 0px; }
+    h2 {
+	margin-top: 0.3em;
+	margin-bottom: 0.1em; }
+    h3 {	
+	color: #222222;
+	margin-top: 0.5em;
+	margin-bottom: 0.05em; }
+}
