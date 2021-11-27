@@ -14,4 +14,5 @@
   (let ((indexfile "indexterms"))
     (let ((indexfile-path (merge-pathnames indexfile (make-pathname :directory dir))))
       (when (dfile:file-exists-p indexfile-path)
-	(dfile:lines-in-file indexfile-path)))))
+	(otlb::remove-empties		; ignore empty lines
+	 (dfile:lines-in-file indexfile-path))))))
