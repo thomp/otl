@@ -1,6 +1,6 @@
 (in-package :otl)
 
-(defparameter *otl-cli-options*        
+(defparameter *otl-cli-options*
   '("gloss" "glossfile=" "help" "ignore-errors" "no-overwrite" "outfile=" "output-spec=" "query=" "papersize=" "sexp" "stitch" "style=" "subtype=" "version"))
 
 (defparameter *otl-cli-short-help-string*
@@ -75,8 +75,8 @@ Examples:
   (declare (ignore posix-argv))
   ;(format t "invoking-otl-from-shell~%")
   ;; ensure shell command always completes and returns a meaningful exit code
-  (multiple-value-bind (successp condition) 
-      (ignore-errors 
+  (multiple-value-bind (successp condition)
+      (ignore-errors
 	;; parse command-line as described by *otl-cli-help-string*
 	(multiple-value-bind (args valid-options free-args)
 	    (unix-options:getopt
@@ -95,7 +95,7 @@ Examples:
 
 (defun log-error (condition)
   (ensure-directories-exist (otlb::otl-dir))
-  (let ((log-file (merge-pathnames 
+  (let ((log-file (merge-pathnames
 		   (make-pathname :name "log")
 		   (otlb::otl-dir)))
 	(error-msg
@@ -104,7 +104,7 @@ Examples:
 	   (print-object condition s))))
     (write-string error-msg t)
     (write-char #\Newline t)
-    (with-open-file (s log-file 
+    (with-open-file (s log-file
 		       :direction :output
 		       :if-does-not-exist :create
 		       :if-exists :append)
@@ -143,7 +143,7 @@ Examples:
 	 (map nil #'(lambda (x) (format t "~S~%" x))
 	      (otlp::input-specs)))
 	((equal query-text  "styles")
-	 (map nil #'(lambda (pathname) 
+	 (map nil #'(lambda (pathname)
 		      (format t "~A~%" (pathname-name pathname)))
 	      (otlr::default-stylepaths)))
 	((equal query-text  "output")
@@ -206,12 +206,12 @@ Examples:
 	       ;; temporary file (only used for stitched output)
 	       (tmpfile (if stitch
 			    (dfile:make-unique-path (dfile:tempdir)
-						    :createp nil)))) 
+						    :createp nil))))
 	  ;; lazy kludge implementing stitch
-	  (let ((final-filenames 
-		 (cond (stitch 
+	  (let ((final-filenames
+		 (cond (stitch
 			(dfile::files-to-file tmpfile unambiguous-filenames)
-			(list tmpfile)) 
+			(list tmpfile))
 		       (t unambiguous-filenames))))
 	    ;; run parse-and-render-file on each filename
 	    ;; OUTFILES: collect pathnames corresponding to output files
@@ -221,25 +221,25 @@ Examples:
 						      :glossfile glossfile
 						      :glossp glossp
 						      :ignore-errors-p ignore-errors-p
-						      :outfile outfile 
+						      :outfile outfile
 						      :output-subtype output-subtype
 						      :overwrite-p overwrite-p
 						      :paper-size-nickname papersize
 						      :style style))
 			   final-filenames)))
 	      ;; cleanup
-	      (when stitch 
+	      (when stitch
 		;; move output file to current directory from its present location
 		(let ((outfile (first outfiles)))
-		 (dfile::mv outfile 
-			    (merge-pathnames 
+		 (dfile::mv outfile
+			    (merge-pathnames
 			     (make-pathname
 			      :name (pathname-name outfile)
 			      :type (pathname-type outfile))
-			     %wd%))) 
+			     %wd%)))
 		;; delete temporary 'stitched' input file
-		(delete-file tmpfile)))) 
-	  ;; return an appropriate exit code from the perspective of the shell 
+		(delete-file tmpfile))))
+	  ;; return an appropriate exit code from the perspective of the shell
 	  )
 	(format t "An input file was not specified. Try 'otl --help'.~%~%"))))
 
@@ -266,20 +266,20 @@ STYLE is made available to internal functions as the special variable OTLR::%STY
     (declare (special %indexterms%))
     ;; FIXME: PARSE-RESET should set %indexterms%, checking for indexterms file in out-dir
     (otlp::parse-reset
-     input-spec 
+     input-spec
      (otlb::read-indexterms out-dir))
-    (let ((parse-tree 
-	   (otlp:parse-file infile 
+    (let ((parse-tree
+	   (otlp:parse-file infile
 			    :author author
 			    :date-created date-created
 			    :date-last-modified date-last-modified
-			    :paper-size-nickname paper-size-nickname 
+			    :paper-size-nickname paper-size-nickname
 			    :title title)))
       (let ((outstring (otlr::document-to-string parse-tree output-spec :glossfile glossfile :glossp glossp :ignore-errors-p ignore-errors-p :out-dir out-dir :output-subtype output-subtype :style style))
 	    (outfile (or outfile
 			 (let ((suffix (or (first (otlr::get-*render2*-value :suffix)) "otlout"))
 			       (directory out-dir)
-			       (name (pathname-name infile))) 
+			       (name (pathname-name infile)))
 			   (make-pathname :name name :directory directory :type suffix)))))
 	(if (and (dfile:file-or-directory-exists outfile) (not overwrite-p))
 	    (cerror "Overwrite ~S ?" (format nil "File ~S exists" outfile) outfile))
