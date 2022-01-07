@@ -25,17 +25,18 @@ Source documents can include Unicode characters such as ℃ or ←.
 
 otl depends on
 
-- https://github.com/Ramarren/cl-parser-combinators[cl-parser-combinators]
-- https://github.com/e-user/graylex[graylex]
-- https://gitlab.com/dtho/dfile[dfile]
-- https://bitbucket.org/thomp1/paper-sizes[paper-sizes]
+- <https://github.com/Ramarren/cl-parser-combinators>
+- [graylex](https://github.com/e-user/graylex)
+- [dfile](https://gitlab.com/dtho/dfile)
+- [paper-sizes](https://bitbucket.org/thomp1/paper-sizes)
 
 otl-html depends on
 
 - cl-base64
-- https://github.com/thomp/dxg[dxg]
-- https://github.com/thomp/dxh[dxh]
+- [dxg](https://github.com/thomp/dxg)
+- [dxh](https://github.com/thomp/dxh)
 
+otl-latex is accessible at <https://gitlab.com/dtho/otl-latex>
 
 ## Use
 
