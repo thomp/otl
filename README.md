@@ -135,50 +135,57 @@ If necessary, load the appropriate system for the desired output format.
 		  ((:BOLD) (#\y #\o #\u))))))
 	  ((:FOOTNOTES NIL NIL)) NIL ((:DOCBOTTOM))))
 
+
 ## Invoking the shell command
 
-otl --query <query text>
+```
 otl [options] file1 ... fileN
+otl --query <query text>
+```
 
+### Invoking with file arguments
 
-For the first form of the command, <query text> may be one of
+When invoked as `otl [options] file1 ... fileN`, file1 through fileN are processed as input files. `[options]` may include any of
 
-input
-        output a list of valid 'input-spec' values
-output
-        output a list of valid 'output-spec' values
-styles
-        output a list of available styles, each as a style name on a separate line
-
-
-For the second form of the command, file1 through fileN are processed as input files. [options] may include any of
-
---gloss
+`--gloss`
         include glossary
 
---glossfile gfile
+`--glossfile gfile`
         write glossary data to gfile and include glossary term markup
 
---help
+`--help`
         output this message
 
---no-overwrite
+`--no-overwrite`
         don't overwrite preexisting output file
 
---outfile FILE
+`--outfile FILE`
         specify output filename (note that behavior is guaranteed only in the case where a single file is parsed); if --stitch is true, this option is ignored; if --stitch isn't true and if --outfile isn't specified, then the output file(s), by default, are written to the same directory as the input files and have the same file names as the input files, but with the suffix corresponding to the output-spec provided
 
---output-spec output-spec
+`--output-spec output-spec`
         specify a 'output-spec' value (':text', ':latex', ':html' (the default), or a path corresponding to a parameter file)
 
---papersize PAPER-SIZE
+`--papersize PAPER-SIZE`
         PAPER-SIZE is a CLPS paper size nickname sans colon ('A4' or 'letter')
 
---sexp
+`--sexp`
         print the sexp which would be otherwise executed and then halt
 
---stitch
+`--stitch`
         process, as the equivalent of a single file, the concatenatation of file1 through fileN
 
---style stylename
+`--style stylename`
         request that style specified by stylename be used
+
+
+
+### Invoking with <query text>
+
+`input`
+        output a list of valid 'input-spec' values
+
+`output`
+        output a list of valid 'output-spec' values
+
+`styles`
+        output a list of available styles, each as a style name on a separate line
