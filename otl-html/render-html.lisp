@@ -281,9 +281,14 @@ xmlns:svg=\"http://www.w3.org/2000/svg\">" stream)
        :id (otlb::acceptable-id item-id)))))
 
 (defun indexterm-html (object-sequence item-id item-kvs stream)
-  (declare (ignore object-sequence item-id item-kvs stream))
-  ;; (error "INDEXTERM not supported with OTL-HTML.")
-  )
+  (declare (ignore item-id item-kvs ))
+  ;; Simply ignoring indexterm items when encountered is hardly
+  ;; helpful. At the minimum,
+  ;; 1. the character content should be rendered and
+  ;; 2. a warning provided regarding the current lack of support for
+  ;; generating an index with HTML output.
+  (warn "INDEXTERM not fully supported with OTL-HTML.")
+  (render-obj-seq object-sequence stream))
 
 ;; versus "<span style=\"font-style: italic;\">" "</span>" ?
 (defun italic-html (object-sequence item-id item-kvs stream)
