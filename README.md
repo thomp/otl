@@ -4,6 +4,9 @@
 
 ---
 
+Development is, post November 2023, at: https://codeberg.org/thomp
+
+
 Generate HTML, OpenDocument, LaTeX, or other markup from a plain-text input document. Supported document components include 
 
 - comments
